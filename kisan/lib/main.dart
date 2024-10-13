@@ -127,8 +127,7 @@ class CropCard extends StatelessWidget {
   final String cropName;
   final String startTime;
 
-  const CropCard({required this.cropName, required this.startTime, Key? key})
-      : super(key: key);
+  const CropCard({required this.cropName, required this.startTime, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +151,7 @@ class CropCard extends StatelessWidget {
 class CropDetailPage extends StatelessWidget {
   final String cropName;
 
-  const CropDetailPage({required this.cropName, Key? key}) : super(key: key);
+  const CropDetailPage({required this.cropName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +210,7 @@ class NextCropCard extends StatelessWidget {
   final String farmerName;
   final String cropName;
 
-  const NextCropCard({required this.farmerName, required this.cropName, Key? key}) : super(key: key);
+  const NextCropCard({required this.farmerName, required this.cropName, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -275,12 +274,10 @@ class _CropRegistrationPageState extends State<CropRegistrationPage> {
   Future<void> _pickImages() async {
     try {
       final List<XFile> pickedFiles = await _picker.pickMultiImage();
-      if (pickedFiles != null) {
-        setState(() {
-          _imageFiles = pickedFiles;
-        });
-      }
-    } catch (e) {
+      setState(() {
+        _imageFiles = pickedFiles;
+      });
+        } catch (e) {
       print('Error picking images: $e');
     }
   }
