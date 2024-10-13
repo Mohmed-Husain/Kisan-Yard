@@ -32,7 +32,7 @@ class KisanMartPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            const SingleChildScrollView(
+            SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
@@ -57,7 +57,7 @@ class KisanMartPage extends StatelessWidget {
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
               childAspectRatio: 0.75,
-              children: const [
+              children: [
                 ProductCard(name: 'Calcium Nitrate', price: 149, imagePath: 'assets/calcium_nitrate.png'),
                 ProductCard(name: 'Battery Sprayer', price: 4999, imagePath: 'assets/battery_sprayer.png'),
                 ProductCard(name: 'Tomato Seeds', price: 79, imagePath: 'assets/tomato_seeds.png'),

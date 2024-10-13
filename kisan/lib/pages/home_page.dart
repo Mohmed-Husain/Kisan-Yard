@@ -26,7 +26,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: SafeArea(
+        child: _pages[_currentIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -34,16 +36,32 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
         },
-         backgroundColor: Colors.blue, // Set the background color of the nav bar
-        selectedItemColor: Colors.white, // Set the color of the selected item
-        unselectedItemColor: Colors.grey, // Set the color of unselected items (optional)
-        
+        backgroundColor: const Color.fromARGB(255, 130, 82, 207),
+        selectedItemColor: const Color.fromARGB(255, 87, 87, 87),
+        unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        elevation: 10, // Adds a shadow effect to the bottom navigation
+        type: BottomNavigationBarType.fixed, // Keeps all labels visible
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Bidding Space'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Kisan Mart'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Crop Registration'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Order Status'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Bidding Space',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Kisan Mart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            label: 'Crop Registration',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long),
+            label: 'Order Status',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
     );
