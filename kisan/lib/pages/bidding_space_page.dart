@@ -14,8 +14,6 @@ class BiddingSpacePage extends StatelessWidget {
     {'name': 'Onion', 'startTime': 'Starts at 6 PM'},
   ];
 
-  const BiddingSpacePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,13 +23,13 @@ class BiddingSpacePage extends StatelessWidget {
         backgroundColor: Colors.green[700],
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: Icon(Icons.search),
             onPressed: () {
               // Add search functionality here if needed
             },
           ),
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: Icon(Icons.filter_list),
             onPressed: () {
               // Add filter functionality here if needed
             },
