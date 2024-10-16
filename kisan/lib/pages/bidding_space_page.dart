@@ -17,10 +17,16 @@ class BiddingSpacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[50],
+      backgroundColor: const Color(0xFFFEFAE0),
       appBar: AppBar(
+        centerTitle: true,
+        titleTextStyle: const TextStyle(
+          color: Color(0xFF3B3F2A),
+          fontFamily: 'Serif',
+          fontSize: 25.0, // Increase the text size
+        ),
         title: const Text('Bidding Space'),
-        backgroundColor: Colors.green[700],
+        backgroundColor: const Color(0xFF798645),
         actions: [
           IconButton(
             icon: Icon(Icons.search),

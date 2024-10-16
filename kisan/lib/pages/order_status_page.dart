@@ -29,7 +29,7 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
     });
 
     // Simulate a network delay
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     // Mock order data
     setState(() {
@@ -40,7 +40,6 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
         'estimated_delivery': 'October 15, 2024 - 5:00 PM',
         'progress': 3,
         'delivery': 'Jeet Residency, Plaj, Gandhinagar, Gujarat',
-        'weather': 'Sunny, 25°C',
         'number': '1',
         'price': '500',
         'image_url': 'https://via.placeholder.com/300',
@@ -55,7 +54,7 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
       appBar: AppBar(
         title: const Text('Order Status',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-        backgroundColor: Colors.green.shade700,
+        backgroundColor: const Color(0xFF798645),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -79,8 +78,8 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                     // Order Tracking Card
                     Card(
                       elevation: 8,
-                      shadowColor: Colors.greenAccent,
-                      color: Colors.white,
+                      shadowColor: const Color(0xFFFEFAE0),
+                      color: const Color(0xFFFEFAE0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),

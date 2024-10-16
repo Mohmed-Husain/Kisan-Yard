@@ -30,7 +30,7 @@ class CropCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.eco,
-                color: Colors.green[800],
+                color: const Color(0xFF798645),
                 size: 40,
               ),
               const SizedBox(width: 15),
@@ -42,7 +42,7 @@ class CropCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green[800],
+                      color: const Color(0xFF626F47),
                     ),
                   ),
                   const SizedBox(height: 5),

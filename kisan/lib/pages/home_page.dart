@@ -36,9 +36,9 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
         },
-        backgroundColor: const Color.fromARGB(255, 130, 82, 207),
-        selectedItemColor: const Color.fromARGB(255, 87, 87, 87),
-        unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color(0xFF626F47),
+        selectedItemColor: const Color.fromARGB(255, 204, 200, 179),
+        unselectedItemColor: const Color(0xFFFEFAE0),
         elevation: 10, // Adds a shadow effect to the bottom navigation
         type: BottomNavigationBarType.fixed, // Keeps all labels visible
         items: const [

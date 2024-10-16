@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  final String name;
-  final int price;
-  final String imagePath;
+  final String productName;
+  final int productPrice;
+  final String productImagePath;
+  final String productDescription;
 
   const ProductDetailPage({
-    required this.name,
-    required this.price,
-    required this.imagePath,
-    super.key,
-  });
+    Key? key,
+    required this.productName,
+    required this.productPrice,
+    required this.productImagePath,
+    required this.productDescription,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        titleTextStyle: const TextStyle(
+          color: Color(0xFF313423),
+          fontFamily: 'Serif',
+          fontSize: 25.0, // Increase the text size
+        ),
+        title: Text(productName),
+        backgroundColor: const Color(0xFF626F47),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -24,51 +32,43 @@ class ProductDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
+              productImagePath,
+              height: 250,
               width: double.infinity,
-              height: 200,
+              fit: BoxFit.cover,
             ),
             const SizedBox(height: 16),
             Text(
-              name,
+              productName,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Text('Rs. $price/-', style: const TextStyle(fontSize: 20, color: Colors.red)),
-            const SizedBox(height: 16),
-            const Text('Availability', style: TextStyle(fontSize: 16)),
-            const Text('In Stock', style: TextStyle(fontSize: 16, color: Colors.green)),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Quantity', style: TextStyle(fontSize: 16)),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: () {
-                        // Handle quantity decrease
-                      },
-                    ),
-                    const Text('1'), // Replace with actual quantity state
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        // Handle quantity increase
-                      },
-                    ),
-                  ],
-                ),
-              ],
+            Text(
+              'Rs. $productPrice/-',
+              style: const TextStyle(fontSize: 20, color: Colors.red),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Handle add to cart
-              },
-              child: const Text('Add to cart'),
+            const Text(
+              'Description:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              productDescription,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const Spacer(),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Add to cart logic
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF798645),
+                  textStyle: const TextStyle(color: Color(0xFFF2EED7)),
+                ),
+                child: const Text('Add to Cart'),
+              ),
             ),
           ],
         ),
