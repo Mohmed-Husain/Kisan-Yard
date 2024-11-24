@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kisan/pages/order_status_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -17,7 +18,8 @@ class ProfilePage extends StatelessWidget {
             // User Info Section
             const CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage('assets/profile_picture.png'), // Placeholder for profile picture
+              backgroundImage: AssetImage(
+                  'assets/profile_picture.png'), // Placeholder for profile picture
             ),
             const SizedBox(height: 16),
             const Text(
@@ -37,6 +39,18 @@ class ProfilePage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
+            ListTile(
+              leading: const Icon(Icons.shopping_bag),
+              title: const Text('My Orders'),
+              onTap: () {
+                // Navigate to My Orders Page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OrderStatusPage()),
+                );
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text('Edit Profile'),

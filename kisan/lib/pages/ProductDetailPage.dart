@@ -1,30 +1,52 @@
 import 'package:flutter/material.dart';
+import 'cart_items.dart'; // Import the global cart list
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final String productName;
   final int productPrice;
   final String productImagePath;
   final String productDescription;
 
   const ProductDetailPage({
-    Key? key,
+    super.key,
     required this.productName,
     required this.productPrice,
     required this.productImagePath,
     required this.productDescription,
-  }) : super(key: key);
+  });
+
+  @override
+  _ProductDetailPageState createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  int _quantity = 1;
+
+  void _incrementQuantity() {
+    setState(() {
+      _quantity++;
+    });
+  }
+
+  void _decrementQuantity() {
+    if (_quantity > 1) {
+      setState(() {
+        _quantity--;
+      });
+    }
+  }
+
+  // Function to calculate the total price for the selected product and quantity
+  int _calculateTotalPrice() {
+    return widget.productPrice * _quantity;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        titleTextStyle: const TextStyle(
-          color: Color(0xFF313423),
-          fontFamily: 'Serif',
-          fontSize: 25.0, // Increase the text size
-        ),
-        title: Text(productName),
-        backgroundColor: const Color(0xFF626F47),
+        title: Text(widget.productName),
+        backgroundColor: const Color(0xFF798645),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -32,19 +54,19 @@ class ProductDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              productImagePath,
+              widget.productImagePath,
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
             const SizedBox(height: 16),
             Text(
-              productName,
+              widget.productName,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              'Rs. $productPrice/-',
+              'Rs. ${widget.productPrice}/-',
               style: const TextStyle(fontSize: 20, color: Colors.red),
             ),
             const SizedBox(height: 16),
@@ -54,18 +76,56 @@ class ProductDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              productDescription,
+              widget.productDescription,
               style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Quantity', style: TextStyle(fontSize: 18)),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.remove),
+                      onPressed: _decrementQuantity,
+                    ),
+                    Text('$_quantity', style: const TextStyle(fontSize: 18)),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: _incrementQuantity,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Total Price: Rs. ${_calculateTotalPrice()}/-', // Display total price based on quantity
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const Spacer(),
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Add to cart logic
+                  // Add the product to the cart with quantity and total price
+                  cartItems.add({
+                    'name': widget.productName,
+                    'price': widget.productPrice,
+                    'image': widget.productImagePath,
+                    'quantity': _quantity, // Include the quantity
+                    'totalPrice': _calculateTotalPrice(), // Include the total price
+                  });
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${widget.productName} added to cart!'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF798645),
-                  textStyle: const TextStyle(color: Color(0xFFF2EED7)),
                 ),
                 child: const Text('Add to Cart'),
               ),
