@@ -7,13 +7,7 @@ class KisanMartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFEFAE0),
       appBar: AppBar(
-        titleTextStyle: const TextStyle(
-        color: Color(0xFF3B3F2A),
-        fontFamily: 'Serif',
-        fontSize: 25.0, // Increase the text size
-        ),
         title: const Text('KISANMART'),
         centerTitle: true,
         backgroundColor: const Color(0xFF798645),
@@ -168,7 +162,7 @@ class CategoryCard extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundColor: const Color(0xFFEEEEEE),
+            backgroundColor: Colors.grey[200],
             child: Icon(icon, size: 30, color: Colors.red),
           ),
           const SizedBox(height: 8),

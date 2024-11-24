@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart'; // Import Firebase Storage
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kisan/models/register_crop.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'dart:io';
 
 class CropRegistrationPage extends StatefulWidget {
@@ -12,35 +17,95 @@ class CropRegistrationPage extends StatefulWidget {
 }
 
 class _CropRegistrationPageState extends State<CropRegistrationPage> {
-  final TextEditingController _cropNameController = TextEditingController();
   final TextEditingController _minBidController = TextEditingController();
   final TextEditingController _totalWeightController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   List<XFile>? _imageFiles;
 
+  String? _selectedState;
+  String? _selectedCrop;
+
+  final List<String> crops = ['Wheat', 'Rice', 'Jowar', 'Bajra'];
+  final List<String> states = ['Gujarat', 'Maharashtra', 'Rajasthan', 'Punjab', 'Tamil Nadu'];
+
   @override
   void initState() {
     super.initState();
-    // Set the cropNameController with the passed cropName
-    _cropNameController.text = widget.cropName;
+    // Set the initial selected crop if it's in the crops list; otherwise, default to the first crop.
+    _selectedCrop = crops.contains(widget.cropName) ? widget.cropName : crops.first;
   }
 
-  void _registerCrop() {
-    String cropName = _cropNameController.text;
-    String minBid = _minBidController.text;
-    String totalWeight = _totalWeightController.text;
-    String address = _addressController.text;
-    String phoneNumber = _phoneNumberController.text;
 
-    print('Crop Name: $cropName');
-    print('Min Bid: $minBid');
-    print('Total Weight: $totalWeight');
-    print('Address: $address');
-    print('Phone Number: $phoneNumber');
-    // Additional registration logic here
+Future<List<String>> _uploadImages() async {
+  List<String> imageUrls = [];
+  try {
+    if (_imageFiles != null && _imageFiles!.isNotEmpty) {
+      for (var file in _imageFiles!) {
+        String fileName = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+        Reference storageReference = FirebaseStorage.instance.ref().child('crop_images/$fileName');
+        UploadTask uploadTask = storageReference.putFile(File(file.path)); // Upload the image
+        TaskSnapshot snapshot = await uploadTask.whenComplete(() {}); // Wait for upload completion
+        String downloadUrl = await snapshot.ref.getDownloadURL(); // Retrieve download URL
+        imageUrls.add(downloadUrl); // Add to list
+      }
+    }
+  } catch (e) {
+    print('Error uploading images: $e');
   }
+  return imageUrls;
+}
+
+
+void _registerCrop() async {
+  String cropName = _selectedCrop ?? 'Not Selected';
+  String minBid = _minBidController.text;
+  String totalWeight = _totalWeightController.text;
+  String address = _selectedState ?? 'Not Selected';
+  String phoneNumber = _phoneNumberController.text;
+
+  // Get the current user ID from FirebaseAuth
+  String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+  print('Crop Name: $cropName');
+  print('Min Bid: $minBid');
+  print('Total Weight (Kg): $totalWeight');
+  print('Address (State): $address');
+  print('Phone Number: $phoneNumber');
+  print('User ID: $userId'); // Print the user ID
+  print('Image Files: $_imageFiles');
+
+  // Upload images and get their URLs
+  List<String> imageUrls = await _uploadImages();
+
+  try {
+    // Save data to Firestore
+    CollectionReference cropsCollection =
+        FirebaseFirestore.instance.collection('registered_crops');
+
+    await cropsCollection.add({
+      'cropName': cropName,
+      'minBid': minBid,
+      'totalWeight': totalWeight,
+      'state': address,
+      'phoneNumber': phoneNumber,
+      'timestamp': FieldValue.serverTimestamp(), // Optional: Adds timestamp
+      'userId': userId, // Add user ID to the document
+      'imageUrls': imageUrls, // Add image URLs to the document
+    });
+
+    print('Crop registration successful!');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Crop registration successful!')),
+    );
+  } catch (e) {
+    print('Failed to register crop: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Failed to register crop.')),
+    );
+  }
+}
+
 
   Future<void> _pickImages() async {
     try {
@@ -69,15 +134,27 @@ class _CropRegistrationPageState extends State<CropRegistrationPage> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            TextField(
-              controller: _cropNameController,
+            // Dropdown for Crop Name
+            DropdownButtonFormField<String>(
+              value: _selectedCrop,
               decoration: const InputDecoration(
-                labelText: 'Crop Name',
+                labelText: 'Select Crop',
                 border: OutlineInputBorder(),
               ),
-              readOnly: true,
+              items: crops.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedCrop = newValue!;
+                });
+              },
             ),
             const SizedBox(height: 16),
+
             TextField(
               controller: _minBidController,
               decoration: const InputDecoration(
@@ -87,6 +164,7 @@ class _CropRegistrationPageState extends State<CropRegistrationPage> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
+
             TextField(
               controller: _totalWeightController,
               decoration: const InputDecoration(
@@ -96,14 +174,28 @@ class _CropRegistrationPageState extends State<CropRegistrationPage> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16),
-            TextField(
-              controller: _addressController,
+
+            // Dropdown for State
+            DropdownButtonFormField<String>(
+              value: _selectedState,
               decoration: const InputDecoration(
-                labelText: 'Address',
+                labelText: 'Select State',
                 border: OutlineInputBorder(),
               ),
+              items: states.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedState = newValue!;
+                });
+              },
             ),
             const SizedBox(height: 16),
+
             TextField(
               controller: _phoneNumberController,
               decoration: const InputDecoration(
@@ -113,24 +205,27 @@ class _CropRegistrationPageState extends State<CropRegistrationPage> {
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 20),
+
             ElevatedButton(
               onPressed: _pickImages,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: const Color(0xFF798645),
                 minimumSize: const Size(double.infinity, 50),
               ),
               child: const Text('Upload Photos'),
             ),
             const SizedBox(height: 20),
+
             ElevatedButton(
               onPressed: _registerCrop,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: const Color(0xFF798645),
                 minimumSize: const Size(double.infinity, 50),
               ),
               child: const Text('Register'),
             ),
             const SizedBox(height: 20),
+
             _imageFiles != null && _imageFiles!.isNotEmpty
                 ? Wrap(
                     spacing: 10,

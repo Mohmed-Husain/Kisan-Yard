@@ -1,8 +1,9 @@
+// home_page.dart
 import 'package:flutter/material.dart';
+import 'cart_page.dart'; // Import CartPage
 import 'bidding_space_page.dart';
 import 'kisan_mart_page.dart';
 import 'crop_registration_page.dart';
-import 'order_status_page.dart';
 import 'profile_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     BiddingSpacePage(),
     const KisanMartPage(),
     const CropRegistrationPage(cropName: 'DefaultCropName'),
-    const OrderStatusPage(),
+    const CartPage(), // CartPage added here
     const ProfilePage(),
   ];
 
@@ -55,8 +56,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Crop Registration',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.receipt_long),
-            label: 'Order Status',
+            icon: Icon(Icons.shopping_bag),
+            label: 'Cart', // Cart added here
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

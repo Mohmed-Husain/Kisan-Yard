@@ -29,7 +29,7 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
     });
 
     // Simulate a network delay
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
 
     // Mock order data
     setState(() {
@@ -78,8 +78,8 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                     // Order Tracking Card
                     Card(
                       elevation: 8,
-                      shadowColor: const Color(0xFFFEFAE0),
-                      color: const Color(0xFFFEFAE0),
+                      shadowColor: const Color(0xFF798645),
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -93,7 +93,7 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.green.shade700,
+                                color: const Color(0xFF798645),
                               ),
                             ),
                             const Divider(),
@@ -116,11 +116,11 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                               margin: const EdgeInsets.symmetric(vertical: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
+                                boxShadow: const [
                                   BoxShadow(
                                     color: Colors.black26,
                                     blurRadius: 8,
-                                    offset: const Offset(0, 3),
+                                    offset: Offset(0, 3),
                                   ),
                                 ],
                               ),
@@ -166,7 +166,8 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                             const SizedBox(height: 15),
                             Row(
                               children: [
-                                const Icon(Icons.delivery_dining, color: Colors.green),
+                                const Icon(Icons.delivery_dining,
+                                    color: Colors.green),
                                 const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
@@ -205,13 +206,14 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                               width: double.infinity,
                               height: 50,
                               margin: const EdgeInsets.only(top: 20),
-                              child: ProgressBar(progress: orderData!['progress']),
+                              child:
+                                  ProgressBar(progress: orderData!['progress']),
                             ),
                             const SizedBox(height: 10),
-                            Row(
+                            const Row(
                               children: [
-                                const Icon(Icons.location_city, color: Colors.green),
-                                const Text(
+                                Icon(Icons.location_city, color: Colors.green),
+                                Text(
                                   'Delivery',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -245,7 +247,7 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
 
 class ProgressBar extends StatelessWidget {
   final int progress;
-  const ProgressBar({Key? key, required this.progress}) : super(key: key);
+  const ProgressBar({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +271,7 @@ class ProgressBar extends StatelessWidget {
           width: 15,
           height: 15,
           decoration: BoxDecoration(
-            color: isActive ? Colors.green : Colors.grey[400],
+            color: isActive ? const Color(0xFF798645) : Colors.grey[400],
             shape: BoxShape.circle,
           ),
           child: isActive
@@ -280,7 +282,7 @@ class ProgressBar extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: isActive ? Colors.green : Colors.grey,
+            color: isActive ? const Color(0xFF798645) : Colors.grey,
             fontWeight: FontWeight.w600,
           ),
         ),
