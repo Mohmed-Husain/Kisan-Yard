@@ -1,7 +1,7 @@
 // home_page.dart
 import 'package:flutter/material.dart';
 import 'cart_page.dart'; // Import CartPage
-import 'bidding_space_page.dart';
+import 'CropTypesPage.dart';
 import 'kisan_mart_page.dart';
 import 'crop_registration_page.dart';
 import 'profile_page.dart';
@@ -17,9 +17,9 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    BiddingSpacePage(),
+    CropTypesPage(),
     const KisanMartPage(),
-    const CropRegistrationPage(cropName: 'DefaultCropName'),
+    const CropRegistrationPage(cropName: 'Crop'),
     const CartPage(), // CartPage added here
     const ProfilePage(),
   ];

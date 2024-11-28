@@ -40,19 +40,48 @@ class _CropRegistrationPageState extends State<CropRegistrationPage> {
 Future<List<String>> _uploadImages() async {
   List<String> imageUrls = [];
   try {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      print('No authenticated user found');
+      return imageUrls;
+    }
+
     if (_imageFiles != null && _imageFiles!.isNotEmpty) {
       for (var file in _imageFiles!) {
-        String fileName = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
-        Reference storageReference = FirebaseStorage.instance.ref().child('crop_images/$fileName');
-        UploadTask uploadTask = storageReference.putFile(File(file.path)); // Upload the image
-        TaskSnapshot snapshot = await uploadTask.whenComplete(() {}); // Wait for upload completion
-        String downloadUrl = await snapshot.ref.getDownloadURL(); // Retrieve download URL
-        imageUrls.add(downloadUrl); // Add to list
+        File imageFile = File(file.path);
+        
+        if (!await imageFile.exists()) {
+          print('File does not exist: ${file.path}');
+          continue;
+        }
+
+        String fileName = 'crop_images/${currentUser.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+        
+        try {
+          // Use ref() instead of reference()
+          Reference storageReference = FirebaseStorage.instance.ref().child(fileName);
+
+          UploadTask uploadTask = storageReference.putFile(
+            imageFile,
+            SettableMetadata(
+              contentType: 'image/jpeg',
+            ),
+          );
+
+          TaskSnapshot snapshot = await uploadTask;
+          
+          String downloadUrl = await snapshot.ref.getDownloadURL();
+          imageUrls.add(downloadUrl);
+          print('Successfully uploaded: $downloadUrl');
+        } on FirebaseException catch (e) {
+          print('Firebase Storage Error: ${e.code} - ${e.message}');
+        }
       }
     }
   } catch (e) {
-    print('Error uploading images: $e');
+    print('Unexpected error in image upload: $e');
   }
+  
   return imageUrls;
 }
 
