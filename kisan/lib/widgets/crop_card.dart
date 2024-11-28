@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../pages/crop_detail_page.dart';
+import '../models/register_crop.dart';
 
 class CropCard extends StatelessWidget {
-  final String cropName;
-  final String startTime;
+  final RegisteredCrop crop;
 
-  const CropCard({required this.cropName, required this.startTime, super.key});
+  const CropCard({required this.crop, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CropCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CropDetailPage(cropName: cropName),
+              builder: (context) => CropDetailPage(crop: crop),
             ),
           );
         },
@@ -38,7 +38,7 @@ class CropCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    cropName,
+                    crop.cropName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ class CropCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    startTime,
+                    'Min Bid: ${crop.minBid}',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600],
