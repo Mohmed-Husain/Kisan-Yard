@@ -112,10 +112,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Support
 For support, email [mohmedhusain72@gmail.com] or create an issue in the repository.
 
-## Acknowledgments
+<!-- ## Acknowledgments
 - Flutter Team
 - Firebase
-- Contributors and maintainers
+- Contributors and maintainers -->
 
 ---
 Built with ❤️ using Flutter and Firebase
