@@ -58,6 +58,21 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.error_outline, color: Colors.red, size: 40),
+                      SizedBox(height: 8),
+                      Text(
+                        'Image not found',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 16),
             Text(
@@ -114,7 +129,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     'price': widget.productPrice,
                     'image': widget.productImagePath,
                     'quantity': _quantity, // Include the quantity
-                    'totalPrice': _calculateTotalPrice(), // Include the total price
+                    'totalPrice':
+                        _calculateTotalPrice(), // Include the total price
                   });
 
                   ScaffoldMessenger.of(context).showSnackBar(

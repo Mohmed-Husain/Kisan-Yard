@@ -11,12 +11,36 @@ class CropTypesPage extends StatefulWidget {
 class _CropTypesPageState extends State<CropTypesPage> {
   // Predefined list of crops
   final List<Map<String, String>> cropTypes = [
-    {'name': 'Wheat', 'image': 'assets/images/wheat.jpg', 'description': 'Staple food grain.'},
-    {'name': 'Rice', 'image': 'assets/images/rice.jpg', 'description': 'Grown in paddy fields.'},
-    {'name': 'Jawar', 'image': 'assets/images/jawar.jpg', 'description': 'Rich in dietary fiber.'},
-    {'name': 'Bajra', 'image': 'assets/images/bajra.jpg', 'description': 'Nutritious millet crop.'},
-    {'name': 'Maize', 'image': 'assets/images/maize.jpg', 'description': 'Used for food and fodder.'},
-    {'name': 'Cotton', 'image': 'assets/images/cotton.jpg', 'description': 'Essential for textiles.'},
+    {
+      'name': 'Wheat',
+      'image': 'assets/images/wheat.jpg',
+      'description': 'Staple food grain.'
+    },
+    {
+      'name': 'Rice',
+      'image': 'assets/images/rice.jpg',
+      'description': 'Grown in paddy fields.'
+    },
+    {
+      'name': 'Jawar',
+      'image': 'assets/images/jawar.jpg',
+      'description': 'Rich in dietary fiber.'
+    },
+    {
+      'name': 'Bajra',
+      'image': 'assets/images/bajra.jpg',
+      'description': 'Nutritious millet crop.'
+    },
+    {
+      'name': 'Maize',
+      'image': 'assets/images/maize.jpg',
+      'description': 'Used for food and fodder.'
+    },
+    {
+      'name': 'Cotton',
+      'image': 'assets/images/cotton.jpg',
+      'description': 'Essential for textiles.'
+    },
   ];
 
   @override
@@ -49,7 +73,8 @@ class _CropTypesPageState extends State<CropTypesPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CropFarmersPage(cropType: crop['name']!),
+                      builder: (context) =>
+                          CropFarmersPage(cropType: crop['name']!),
                     ),
                   );
                 },
@@ -67,13 +92,17 @@ class _CropTypesPageState extends State<CropTypesPage> {
                         image: DecorationImage(
                           image: AssetImage(crop['image']!),
                           fit: BoxFit.cover,
+                          onError: (exception, stackTrace) {
+                            print('Error loading image: ${crop['image']}');
+                          },
                         ),
                       ),
                     ),
                     // Crop Details
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -100,7 +129,8 @@ class _CropTypesPageState extends State<CropTypesPage> {
                     // Navigate Icon
                     const Padding(
                       padding: EdgeInsets.only(right: 16.0),
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.black45),
+                      child:
+                          Icon(Icons.arrow_forward_ios, color: Colors.black45),
                     ),
                   ],
                 ),

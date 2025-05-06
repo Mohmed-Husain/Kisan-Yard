@@ -127,7 +127,7 @@ class _OrderStatusPageState extends State<OrderStatusPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
                                 child: Image.asset(
-                                  'assets/calcium_nitrate.png',
+                                  'assets/images/calcium_nitrate.png',
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return const Center(
