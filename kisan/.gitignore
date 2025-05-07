@@ -31,6 +31,12 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Ignore Firebase configuration file
+android/app/google-services.json
+
+# Ignore iOS Firebase configuration file
+ios/Runner/GoogleService-Info.plist
+
 # Symbolication related
 app.*.symbols
 
